@@ -25,7 +25,6 @@ Your final app should:
 ## Getting started
 
 ### Setup
-
 ```bash
 python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
@@ -41,3 +40,44 @@ pip install -r requirements.txt
 5. Add tests to verify key behaviors.
 6. Connect your logic to the Streamlit UI in `app.py`.
 7. Refine UML so it matches what you actually built.
+
+## Features
+
+- Add an owner profile and manage multiple pets
+- Create care tasks with a scheduled time, duration, priority, and frequency
+- Daily schedule sorted chronologically, with priority as a tiebreaker
+- Conflict warnings when two tasks are scheduled at the same time
+- Recurring tasks: marking a daily or weekly task complete automatically schedules the next occurrence
+- Filter tasks by pet, completion status, or priority level
+
+## Smarter Scheduling
+
+The Scheduler class handles all algorithmic logic:
+
+- Sorting: tasks are ordered by time (HH:MM), then by priority for ties
+- Conflict detection: flags any two tasks scheduled at the exact same time and surfaces a warning in the UI
+- Recurrence: when a daily or weekly task is marked complete, a new task is created for the next occurrence using timedelta
+- Filtering: tasks can be filtered by pet name, completion status, or priority level
+
+## Testing PawPal+
+
+Run the test suite with:
+```bash
+python -m pytest
+```
+
+The suite covers task completion, recurrence logic, sorting correctness, conflict detection, filtering, and edge cases like empty owners and missing tasks.
+
+Confidence level: 4 out of 5. Core scheduling logic is fully tested. Known gap: conflict detection checks exact time matches only, not overlapping durations.
+
+## File structure
+```
+pawpal-plus/
+├── pawpal_system.py    # Backend logic (Owner, Pet, Task, Scheduler)
+├── app.py              # Streamlit UI
+├── main.py             # CLI demo script
+├── reflection.md       # Design decisions and AI collaboration notes
+├── requirements.txt    # Dependencies
+└── tests/
+    └── test_pawpal.py  # Automated pytest suite
+```
